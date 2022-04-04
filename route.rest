@@ -1,0 +1,17 @@
+GET http://localhost:3000/
+
+###
+POST http://localhost:3000/
+Content-Type: application/json
+
+
+{
+    "Author": "a",
+    "title": "how to cook",
+    "blogtext": "this is how to cook..."
+}
+
+
+###
+
+GET http://localhost:3000/6249c3e32309696e788db918
