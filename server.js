@@ -1,11 +1,18 @@
 const express = require("express");
+const cors = require("cors");
 const mongoose = require("mongoose");
+
 const blogs = require("./models/blogSchema");
+const user = require("./models/userSchema");
 
 const app = express();
 require("dotenv").config();
 app.use(express.json());
-
+app.use(
+  cors({
+    origin: "*",
+  })
+);
 const port = process.env.PORT || 3000;
 
 mongoose
@@ -32,7 +39,7 @@ app.get("/:id", (req, res) => {
 });
 
 app.post("/", (req, res) => {
-  //create blog
+  //create blog for admin user
   const blog = new blogs({
     Author: req.body.Author,
     title: req.body.title,
