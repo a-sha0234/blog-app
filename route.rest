@@ -1,7 +1,7 @@
 GET http://localhost:3000/
 
 ###
-POST http://localhost:3000/
+POST http://localhost:3000/add
 Content-Type: application/json
 
 
@@ -14,7 +14,21 @@ Content-Type: application/json
 
 ###
 
-GET http://localhost:3000/6249c3e32309696e788db918
+GET http://localhost:3000/6244bfeae7418686f03b90bd
+
+###
+GET http://localhost:3000/api
 
 ###
 
+
+POST http://localhost:3000/login
+Content-Type: application/json
+
+{
+    "username": "a",
+}
+
+###
+POST http://localhost:3000/api/posts
+Content-Type: application/json

@@ -6,7 +6,6 @@ const blogSchema = new Schema(
     Author: { type: String, required: true },
     title: { type: String, required: true },
     blogtext: { type: String, required: true },
-    comments: { type: String },
   },
   { timestamps: true }
 );
