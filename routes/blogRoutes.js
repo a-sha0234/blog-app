@@ -5,11 +5,12 @@ const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 const jwt = require("jsonwebtoken");
 const userController = require("../controllers/userController");
+const comment = require("../models/commentSchema");
 
 const router = express.Router();
 
 router.get("/posts", userController.protected_get, (req, res) => {
-  //get all blogs
+  //get all blogs for admin
   blogs
     .find()
     .sort({ createAt: -1 })
@@ -21,15 +22,8 @@ router.get("/posts", userController.protected_get, (req, res) => {
     });
 });
 
-router.get("/:id", (req, res) => {
-  //get single blog that was clicked on
-  const id = req.params.id;
-  blogs.findById(id).then((result) => {
-    res.json(result);
-  });
-});
-
-router.post("/add", (req, res) => {
+router.post("/add", userController.protected_get, (req, res) => {
+  console.log(req.body);
   //create blog for admin user
   const blog = new blogs({
     Author: req.body.Author,
@@ -40,26 +34,58 @@ router.post("/add", (req, res) => {
   });
 });
 
-//testing
+router.delete("/posts/:id", userController.protected_get, (req, res) => {
+  //delete blog for admin
+  blogs.findByIdAndDelete({ _id: req.params.id }).then((result) => {
+    res.json("blog deleted successfully!");
+  });
+});
 
-// router.post("/login", (req, res) => {
-//   console.log(req.body);
-//   user
-//     .find({ username: req.body.username, password: req.body.password })
-//     .then((result) => {
-//       console.log({ user: result[0].username, pass: req.body.password });
-//       res.json(result);
-//       // jwt.sign({ user: result }, "secret key!", (err, token) => {
-//       //   res.json({ token });
-//       // });
-//     });
+// router.get("/allposts/details/:id", (req, res) => {
+//   //get single blog that was clicked on for non-admin
+//   const id = req.params.id;
+//   blogs.findById(id).then((result) => {
+//     res.json(result);
+//   });
 // });
 
-router.delete("/posts/:id", (req, res) => {
-  //delete blog
-  blogs.findByIdAndDelete({ _id: req.params.id }).then((result) => {
-    res.json(result);
+router.get("/allposts", (req, res) => {
+  //get all blogs for non-admin
+  blogs
+    .find()
+    .sort({ createAt: -1 })
+    .then((result) => {
+      res.json(result);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
+
+router.post("/add/comment", (req, res) => {
+  console.log(req.body);
+  //create comment for non admins
+  const comments = new comment({
+    id: req.body.id,
+    name: req.body.name,
+    comment: req.body.comment,
+  }).save((err) => {
+    res.send(err);
   });
+});
+
+router.get("/posts/:postsid/comment", (req, res) => {
+  //working on this
+  //get all comments for users
+  comment
+    .find({ id: req.params.postsid })
+    .sort({ createAt: -1 })
+    .then((result) => {
+      res.json(result);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 });
 
 router.post("/login", userController.log_in_post);
