@@ -27,18 +27,23 @@ exports.protected_get = [
 
     const bearerHeader = req.headers["authorization"];
 
-    let head = req.headers["authorization"].split(":").splice(1, 1).join(""); // remove first item
+    // let head = req.headers["authorization"].split(":").splice(1, 1).join(""); // remove first item
 
-    let newHead = head.split("");
+    // let newHead = head.split("");
 
-    let latest = newHead.slice(1, newHead.length - 2).join(""); // remove speech marks
-    console.log(latest);
+    // let latest = newHead.slice(1, newHead.length - 2).join(""); // remove speech marks
+    // console.log(latest);
 
     if (typeof bearerHeader !== "undefined") {
+      let head = req.headers["authorization"].split(":").splice(1, 1).join(""); // remove first item
+
+      let newHead = head.split("");
+
+      let latest = newHead.slice(1, newHead.length - 2).join(""); // remove speech marks
       const bearer = bearerHeader.split(" ");
 
       const bearerToken = latest;
-      console.log(bearerToken);
+      // console.log(bearerToken);
 
       req.token = bearerToken;
       next();
