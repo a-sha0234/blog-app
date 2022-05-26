@@ -27,13 +27,6 @@ exports.protected_get = [
 
     const bearerHeader = req.headers["authorization"];
 
-    // let head = req.headers["authorization"].split(":").splice(1, 1).join(""); // remove first item
-
-    // let newHead = head.split("");
-
-    // let latest = newHead.slice(1, newHead.length - 2).join(""); // remove speech marks
-    // console.log(latest);
-
     if (typeof bearerHeader !== "undefined") {
       let head = req.headers["authorization"].split(":").splice(1, 1).join(""); // remove first item
 
@@ -43,7 +36,6 @@ exports.protected_get = [
       const bearer = bearerHeader.split(" ");
 
       const bearerToken = latest;
-      // console.log(bearerToken);
 
       req.token = bearerToken;
       next();
@@ -66,18 +58,3 @@ exports.protected_get = [
     });
   },
 ];
-
-// const jwt = require("jsonwebtoken");
-
-// module.exports = (req, res, next) => {
-//     try {
-//         const token = req.header("x-auth-token");
-//         if (!token) return res.status(403).send("Access denied.");
-
-//         const decoded = jwt.verify(token, process.env.JWTPRIVATEKEY);
-//         req.user = decoded;
-//         next();
-//     } catch (error) {
-//         res.status(400).send("Invalid token");
-//     }
-// };
